@@ -29,7 +29,9 @@ except ImportError:
 
 
 class DocumentParser:
-    """A universal document parser for extracting text and data from various file formats."""
+    """A universal document parser for extracting text and data from various
+    file formats.
+    """
 
     @staticmethod
     def parse_txt(file_path: str) -> str:
@@ -68,7 +70,10 @@ class DocumentParser:
     @staticmethod
     def parse_docx(file_path: str) -> str:
         if not docx:
-            return "[Error: python-docx is not installed. Run 'pip install python-docx']"
+            return (
+                "[Error: python-docx is not installed. "
+                "Run 'pip install python-docx']"
+            )
 
         doc = docx.Document(file_path)
         return "\n".join([para.text for para in doc.paragraphs])
@@ -76,7 +81,10 @@ class DocumentParser:
     @staticmethod
     def parse_excel(file_path: str) -> str:
         if not pd:
-            return "[Error: pandas and openpyxl are not installed. Run 'pip install pandas openpyxl']"
+            return (
+                "[Error: pandas and openpyxl are not installed. "
+                "Run 'pip install pandas openpyxl']"
+            )
 
         # Read all sheets into a dictionary of dataframes
         df_dict = pd.read_excel(file_path, sheet_name=None)
@@ -89,7 +97,10 @@ class DocumentParser:
     @staticmethod
     def parse_html(file_path: str) -> str:
         if not BeautifulSoup:
-            return "[Error: beautifulsoup4 is not installed. Run 'pip install beautifulsoup4']"
+            return (
+                "[Error: beautifulsoup4 is not installed. "
+                "Run 'pip install beautifulsoup4']"
+            )
 
         with open(file_path, "r", encoding="utf-8") as f:
             soup = BeautifulSoup(f.read(), "html.parser")
