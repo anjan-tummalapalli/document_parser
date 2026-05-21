@@ -1,7 +1,7 @@
-import os
+import argparse
 import csv
 import json
-import argparse
+import os
 from typing import Any, Dict, List, Optional
 
 # Supported dependencies:
@@ -55,7 +55,7 @@ class DocumentParser:
     def parse_pdf(file_path: str) -> str:
         if not PyPDF2:
             return "[Error: PyPDF2 is not installed. Run 'pip install PyPDF2']"
-        
+
         text = []
         with open(file_path, "rb") as f:
             reader = PyPDF2.PdfReader(f)
@@ -69,7 +69,7 @@ class DocumentParser:
     def parse_docx(file_path: str) -> str:
         if not docx:
             return "[Error: python-docx is not installed. Run 'pip install python-docx']"
-        
+
         doc = docx.Document(file_path)
         return "\n".join([para.text for para in doc.paragraphs])
 
@@ -77,7 +77,7 @@ class DocumentParser:
     def parse_excel(file_path: str) -> str:
         if not pd:
             return "[Error: pandas and openpyxl are not installed. Run 'pip install pandas openpyxl']"
-        
+
         # Read all sheets into a dictionary of dataframes
         df_dict = pd.read_excel(file_path, sheet_name=None)
         output = []
@@ -90,7 +90,7 @@ class DocumentParser:
     def parse_html(file_path: str) -> str:
         if not BeautifulSoup:
             return "[Error: beautifulsoup4 is not installed. Run 'pip install beautifulsoup4']"
-        
+
         with open(file_path, "r", encoding="utf-8") as f:
             soup = BeautifulSoup(f.read(), "html.parser")
             return soup.get_text(separator="\n", strip=True)
@@ -123,7 +123,9 @@ class DocumentParser:
 
 def main():
     parser = argparse.ArgumentParser(description="Universal Document Parser")
-    parser.add_argument("filepath", type=str, help="Path to the document to parse")
+    parser.add_argument(
+        "filepath", type=str, help="Path to the document to parse"
+    )
     args = parser.parse_args()
 
     try:
